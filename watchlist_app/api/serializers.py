@@ -1,25 +1,23 @@
 from rest_framework import serializers
-from watchlist_app.models import Review, WatchList, StreamPlatform
+from watchlist_app.models import Review, Watch, StreamPlatform
 
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        exclude = ('watchlist', )
+        exclude = ('watch', )
 
 
-class WatchListSerializer(serializers.ModelSerializer):
-    reviews = ReviewSerializer(many=True, read_only=True)
+class WatchSerializer(serializers.ModelSerializer):
+    review = ReviewSerializer(many=True, read_only=True)
 
     class Meta:
-        model = WatchList
+        model = Watch
         fields = '__all__'
 
 
 class StreamPlatformSerializer(serializers.ModelSerializer):
-    # watchlist = serializers.StringRelatedField(many=True)
-    # watchlist = serializers.HyperlinkedIdentityField(many=True, read_only=True, view_name='watch-details')
-    watchlist = WatchListSerializer(many=True, read_only=True)
+    watch = WatchSerializer(many=True, read_only=True)
 
     class Meta:
         model = StreamPlatform
