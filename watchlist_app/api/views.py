@@ -1,7 +1,6 @@
 from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.exceptions import ValidationError
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from watchlist_app.models import Review, StreamPlatform, Watch
 from watchlist_app.api.serializers import ReviewSerializer, StreamPlatformSerializer, WatchSerializer
@@ -18,6 +17,7 @@ class ReviewList(generics.ListAPIView):
 
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer
+    permission_classes = [IsReviewerOrReadOnly]
 
     def get_queryset(self):
         return Review.objects.all()
@@ -54,4 +54,4 @@ class StreamPlatformVS(viewsets.ModelViewSet):
 class WatchVS(viewsets.ModelViewSet):
     queryset = Watch.objects.all()
     serializer_class = WatchSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]

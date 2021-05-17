@@ -14,4 +14,4 @@ class IsReviewerOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         else:
-            return obj.reviewer == request.user
+            return obj.reviewer == request.user or request.user.is_staff
