@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_filters',
     'watchlist_app',
 ]
 
@@ -134,10 +135,10 @@ REST_FRAMEWORK = {
     #     'rest_framework.throttling.UserRateThrottle',
     # ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '1/minute',
-        'user': '3/minute',
-        'review-create': '2/day',
-        'review-detail': '3/minute',
+        'anon': '10/minute',
+        'user': '30/minute',
+        'review-create': '5/day',
+        'review-detail': '30/minute',
     }
 }
 

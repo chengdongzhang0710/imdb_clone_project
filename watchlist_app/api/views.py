@@ -1,7 +1,7 @@
-from rest_framework import generics
-from rest_framework import viewsets
+from rest_framework import generics, viewsets, filters
 from rest_framework.exceptions import ValidationError
 from rest_framework.throttling import AnonRateThrottle, UserRateThrottle, ScopedRateThrottle
+from django_filters.rest_framework import DjangoFilterBackend
 
 from watchlist_app.models import Review, StreamPlatform, Watch
 from watchlist_app.api.serializers import ReviewSerializer, StreamPlatformSerializer, WatchSerializer
@@ -12,6 +12,10 @@ from watchlist_app.api.throttling import ReviewCreateThrottle
 class ReviewList(generics.ListAPIView):
     serializer_class = ReviewSerializer
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['reviewer__username', 'active']
+    search_fields = ['watch__title']
+    ordering_fields = ['rating']
 
     def get_queryset(self):
         pk = self.kwargs['pk']
