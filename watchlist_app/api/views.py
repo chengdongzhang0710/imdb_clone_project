@@ -7,6 +7,7 @@ from watchlist_app.models import Review, StreamPlatform, Watch
 from watchlist_app.api.serializers import ReviewSerializer, StreamPlatformSerializer, WatchSerializer
 from watchlist_app.api.permissions import IsAdminOrReadOnly, IsReviewerOrReadOnly
 from watchlist_app.api.throttling import ReviewCreateThrottle
+from watchlist_app.api.pagination import WatchListPagination
 
 
 class ReviewList(generics.ListAPIView):
@@ -65,3 +66,9 @@ class WatchVS(viewsets.ModelViewSet):
     queryset = Watch.objects.all()
     serializer_class = WatchSerializer
     permission_classes = [IsAdminOrReadOnly]
+
+
+class WatchList(generics.ListAPIView):
+    queryset = Watch.objects.all()
+    serializer_class = WatchSerializer
+    pagination_class = WatchListPagination
