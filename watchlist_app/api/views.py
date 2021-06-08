@@ -56,6 +56,14 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     throttle_scope = 'review-detail'
 
 
+class UserReview(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        username = self.request.query_params.get('username', None)
+        return Review.objects.filter(reviewer__username=username)
+
+
 class StreamPlatformVS(viewsets.ModelViewSet):
     queryset = StreamPlatform.objects.all()
     serializer_class = StreamPlatformSerializer

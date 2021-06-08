@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -19,4 +20,4 @@ def registration_view(request):
             data['access'] = str(refresh.access_token)
         else:
             data = serializer.errors
-        return Response(data)
+        return Response(data, status=status.HTTP_201_CREATED)
